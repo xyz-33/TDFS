@@ -1,0 +1,8 @@
+# JetBrains files
+.idea/
+
+# Thrift generate
+gen-go/
+
+# Test
+playground/
