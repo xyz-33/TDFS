@@ -1,20 +1,16 @@
-# TinyDFS
+# TDFS
 
-分布式文件系统学习项目
+## Install
 
-## 安装
+Need to install Golang and Apache Thrift 
 
-需要自行安装 Golang 和 Thrift
-
-在项目根目录下运行如下命令
+run the following line in terminal
 
 ```bash
 thrift -r --gen go ./thrift/main.thrift
 ```
 
-## 编译
-
-以 Windows 平台为例
+## Compile
 
 ```bash
 go build -o ./out/tdfs.exe ./src/user-client/
@@ -22,48 +18,48 @@ go build -o ./out/namenode.exe ./src/namenode-server/
 go build -o ./out/datanode.exe ./src/datanode-server/
 ```
 
-## 运行
+## Execute
 
-### NameNode 服务器
+### NameNode Server
 
-**示例**
+**Example**
 
 ```bash
 namenode -port 19100 -limit 2 -interval 30
 ```
+**Parameter Explaination**
 
-**参数说明**
+| Parameter  | Explaination                                        | Default Value |
+| ---------  | ----------------------------------------------------| ------------- |
+| -port      | port number when a service start                    | 19100         |
+| -limit     | minimum of replicas that system will keep for files | 2             |
+| -interval  | interval of heartbeat test for DataNodes            | 30            |
+| -h         | help                                                | -             |
 
-| 参数名称  | 说明                                     | 默认值 |
-| --------- | ---------------------------------------- | ------ |
-| -port     | 服务启动的端口号                         | 19100  |
-| -limit    | 系统为文件保持的最小副本数量             | 2      |
-| -interval | 对 DataNode 进行心跳检测的时间间隔（秒） | 30     |
-| -h        | 显示帮助                                 | -      |
 
-### DataNode 服务器
+### DataNode Server
 
-**示例**
+**Example**
 
 ```bash
 datanode -nnaddr "localhost:19100" -port 19200 -root "./storage/" -space "1GB"
 ```
 
-**参数说明**
+**Parameter Explaination**
 
-| 参数名称 | 说明                                            | 默认值            |
-| -------- | ----------------------------------------------- | ----------------- |
-| -nnaddr  | NameNode 的 URL                                 | "localhost:19100" |
-| -port    | 服务启动的端口号                                | 19200             |
-| -root    | 用于保存文件数据的目录                          | "./storage/"      |
-| -space   | 分配给 DataNode 的存储空间，如 "1.5GB"、"512mb" | "1GB"             |
-| -h       | 显示帮助                                        | -                 |
+| Parameter | Explaination                                    | Default Value     |
+| --------  | ----------------------------------------------- | ----------------- |
+| -nnaddr   | NameNode's URL                                  | "localhost:19100" |
+| -port     | port number when a service start                | 19200             |
+| -root     | directory to keep files                         | "./storage/"      |
+| -space    | storage space allocated to the DataNode         | "1GB"             |
+| -h        | help                                            | -                 |
 
-### 用户客户端
+### Client Side
 
-#### 创建配置文件
+#### Create configuration 
 
-在 `tdfs` 客户端文件的同目录下创建 `config.yml` 文件，填入 NameNode 地址列表（因当前仅支持单 NameNode 所以只填入一个即可）
+Under the same directory of `tdfs` client files, create `config.yml`，fill in NameNode address（Currently the system only support single NameNode, so you should fill in just one address）
 
 ```yaml
 namenode:
@@ -72,13 +68,13 @@ namenode:
   - <host>:<port>
 ```
 
-#### 指令
+#### Command
 
 ##### `put`
 
-别名：`p`
+alias：`p`
 
-从本地上传一个文件到服务器
+upload a local file to the tdfs
 
 ```bash
 tdfs put <local_file_path> <remote_file_path>
@@ -86,9 +82,9 @@ tdfs put <local_file_path> <remote_file_path>
 
 ##### `get`
 
-别名：`g`
+alias：`g`
 
-从服务器下载一个文件到本地
+download a file from tdfs to a local directory
 
 ```bash
 tdfs get <remote_file_path> <local_file_path>
@@ -96,9 +92,9 @@ tdfs get <remote_file_path> <local_file_path>
 
 ##### `move`
 
-别名：`mv`, `rename`
+alias：`mv`, `rename`
 
-从服务器重命名或移动一个文件
+rename or move a file on tdfs
 
 ```bash
 tdfs move <old_file_path> <new_file_path>
@@ -106,9 +102,9 @@ tdfs move <old_file_path> <new_file_path>
 
 ##### `delete`
 
-别名：`rm`
+alias：`rm`
 
-从服务器移除一个文件
+remove a file on tdfs
 
 ```bash
 tdfs delete <file_path>
@@ -116,9 +112,9 @@ tdfs delete <file_path>
 
 ##### `stat`
 
-别名：`s`
+alias：`s`
 
-显示服务器上指定文件的信息
+show file information on tdfs
 
 ```bash
 tdfs stat <file_path>
@@ -126,9 +122,9 @@ tdfs stat <file_path>
 
 ##### `list`
 
-别名：`ls`
+alias：`ls`
 
-显示服务器指定目录下的所有文件和子目录信息
+show every files under a certain directory of tdfs
 
 ```bash
 tdfs list <dir_path>
@@ -136,7 +132,7 @@ tdfs list <dir_path>
 
 ##### `mkdir`
 
-检查服务器上指定的目录是否可用
+check whether a certain directory is usable
 
 ```bash
 tdfs mkdir <dir_path>
@@ -144,9 +140,9 @@ tdfs mkdir <dir_path>
 
 ##### `datanodes`
 
-别名：`dn`
+alias：`dn`
 
-显示当前已连接的所有 DataNode 的信息
+show all the connected DataNodes' status
 
 ```bash
 tdfs datanodes
@@ -154,7 +150,7 @@ tdfs datanodes
 
 ##### `help`
 
-显示帮助
+show help
 
 ```bash
 tdfs help
